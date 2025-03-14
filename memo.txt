@@ -1,0 +1,53 @@
+#### git コマンド ####
+設定の確認
+cat ~/.gitconfig
+
+github上のものをclone ※sshを使用すること
+git clone git@github.com:LTSpc/robo2025.git
+
+gitに追加する準備
+git add test.txt
+
+addできたか確認
+git status
+
+コミットする
+git commit -m 'Add a command'
+
+コミットのログを確認
+git log -n 1
+
+リモートリポジトリにプッシュ
+git push
+
+#### github接続 ####
+参照：第4回講義
+
+そのままではつながらなかったのでCopilotと以下リンクを追加で参照して２つのファイルを下記の通り変更した。
+追加参照：
+https://qiita.com/daichi-ishida/items/b77c151067427806ede5
+https://tks2.co.jp/2021/01/18/github-ssh/
+
+
+~/.ssh/config ->
+Host github.com
+        Hostname ssh.github.com
+        User git
+        IdentityFile ~/.ssh/id_rsa
+        Port 443
+        ProxyCommand nc -X connect -x 192.168.58.34:80 %h %p
+
+
+robo2025/.git/config ->
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        url = git@github.com:LTSpc/robo2025.git
+#       url = https://github.com/LTSpc/robo2025.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+        remote = origin
+        merge = refs/heads/main
