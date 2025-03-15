@@ -1,3 +1,16 @@
+ ####  git関連追加 ####
+-過去の状態に戻る
+まず過去に戻りたいブランチを選択する(現在のブランチの過去であれば不要）
+git checkout [ブランチ]
+git logで現在のブランチの過去の状態を確認して，
+戻りたい状態のハッシュをコピーして以下の通り実行
+git checkout [ハッシュ]
+
+-この状態を別のブランチとして編集していく
+git add .
+git commit -m ‘start lesson10’
+git push —set-upstream origin lesson10
+
 #### git コマンド ####
 設定の確認
 cat ~/.gitconfig
