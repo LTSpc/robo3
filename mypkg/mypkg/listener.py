@@ -1,15 +1,32 @@
 import rclpy
 from rclpy.node import Node
-#from std_msgs.msg import Int16
-from person_msgs.msg import Person
+from person_msgs.srv import Query
 
-def cb(msg):
-#	node.get_logger().info('listen %d'%msg.data)
-	node.get_logger().info('listen %s'%msg)
+def main():
+	rclpy.init()
+	node = Node('listener')
+	client = node.create_client(Query, 'query')
+	while not client.wait_for_service(timeout_sec=1.0):
+		node.get_logger().info('waiting...')
 
-rclpy.init()
-node = Node('listener')
-#sub = node.create_subscription(Int16, 'countup',cb,10)
-sub = node.create_subscription(Person, 'person',cb,10)
-# くりかえす
-rclpy.spin(node)
+	req = Query.Request()
+	req.name = 'seo-san'
+	future = client.call_async(req) # response wo matanai#
+
+	while rclpy.ok():
+		rclpy.spin_once(node)
+		if future.done():
+			try:
+				response = future.result()
+			except:
+				node.get_logger().info('yobidasi shippai')
+			else:
+				node.get_logger().info('age: {}'.format(response.age))
+
+			break
+	node.destroy_node()
+	rclpy.shutdown()
+
+if __name__ == '__main__':
+	main()
+

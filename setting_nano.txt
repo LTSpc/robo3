@@ -1,0 +1,8 @@
+# ~/.nanorc	
+# soure https://ja.ubunlog.com/Deepseek-r1-をコンピューターにローカルにインストールして使用する方法-%28Ubuntu-またはその他のシステムを使用する%29/
+
+set linenumbers
+set autoindent
+#set mouse
+set tabsize 4
+
